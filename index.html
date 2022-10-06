@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* display: flex;
+            justify-content: center; */
+        }
+
+        /* #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        } */
+
+
+        svg {
+            display: block;
+            margin: auto;
+            height: 40vw;
+            border: 1px solid green;
+        }
+
+    </style>
+</head>
+
+<body>
+    <select name="area" id="area">
+        <option value='中山'>中山</option>
+        <option value="熱區_中山">熱區_中山</option>
+        <option value="西門町">西門町</option>
+        <option value="熱區_西門町">熱區_西門町</option>
+        <option value="紅區">紅區</option>
+        <option value="紫區">紫區</option>
+        <option value="綠區">綠區</option>
+        <option value="灰區">灰區</option>
+        <option value="黃區">黃區</option>
+    </select>
+    <select name="time" id="time">
+        <option value='平日'>平日</option>
+        <option value="假日">假日</option>
+    </select>
+
+
+    <!-- <div id="map"></div> -->
+    <div id="chart"> </div>
+    <!-- <div id="weekend"></div> -->
+
+
+
+    <script src="./app.js"></script>
+    <!-- <script src="./network.js"></script> -->
+</body>
+
+</html>
