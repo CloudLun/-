@@ -1,5 +1,5 @@
 // mapboxgl.accessToken =
-//   "pk.eyJ1IjoiY2xvdWRsdW4iLCJhIjoiY2w4NmgxNjQ1MHFsOTNub2V5ZjNma3NnYyJ9.S2Uvtteen0hNKEXuwbuVGA";
+//   "pk.eyJ1IjoiY2xvdWRsdW4iLCJhIjoiY2w4NmgxjQ1MHFsOTNub2V5ZjNma3NnYyJ9.S2Uvtteen0hNKEXuwbuVGA";
 
 // const map = new mapboxgl.Map({
 //   container: "map", // container ID
@@ -77,7 +77,7 @@
 //   map.on("moveend", render);
 // });
 
-const width = 800;
+const width = window.innerWidth;
 const height = 800;
 
 const files = ["./data/平日店家消長.csv", "./data/假日店家消長.csv"];
@@ -116,21 +116,25 @@ function chartGenerator(csv, area) {
     data.forEach((d) => {
       d["size_all2019"] = +d["size_all2019"];
       d["size_pos"] = +d["size_pos"];
-      d["size_neg"] = +d["size_neg"];
+      d["size_neg"] = 0 - +d["size_neg"];
       d["changes"] = +d["changes"];
     });
 
+    console.log(data[0]["size_neg"]);
+
     areaData = data.filter((d) => d["xm_dist"] === area);
 
-    let x = d3
-      .scaleLinear()
-      .range([0, 500])
-      .domain(
-        d3.extent(areaData, function (d) {
-          return d.changes;
-        })
-      )
-      .nice();
+    let x = d3.scaleLinear().range([0, 600]).domain(
+      [-70, 70]
+      // d3.extent(areaData, function (d) {
+      //   return d.size_pos;
+      // })
+    );
+
+    let x1 = d3.scaleLinear().range([200, 400]).domain([70,0]);
+    console.log(x(0));
+    console.log(x(-70))
+
     let y = d3
       .scaleBand()
       // .padding(0.04)
@@ -138,65 +142,108 @@ function chartGenerator(csv, area) {
       .domain(areaData.map((d) => d["細項分類"]));
 
     // AXIS
-    svg
-      .append("g")
-      .attr("class", "xAxis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-    // .call((g) => {
-    //   g.select(".domain").remove();
-    // });
+    // svg
+    //   .append("g")
+    //   .attr("class", "xAxis")
+    //   .attr("transform", "translate(0," + height + ")")
+    //   .call(d3.axisBottom(x).tickSize(0))
+    //   .call((g) => {
+    //     g.select(".domain").remove();
+    //   });
+
+
 
     svg
       .append("g")
       .attr("class", "yAxis")
       .attr("transform", "translate(" + x(0) + ",0)")
-      .call(d3.axisLeft(y).tickSize(0).tickPadding(5));
+      .call(d3.axisRight(y).tickSize(0).tickPadding(5));
     // .call((g) => {
     //   g.select(".domain").remove();
     // });
 
+    // svg
+    //   .append("g")
+    //   .attr("class", "yAxis")
+    //   .attr("transform", "translate(" + x1(0) + ",0)")
+    //   .call(d3.axisRight(y).tickSize(0).tickPadding(5));
+
     svg
       .append("g")
-      .attr("class", "bars")
-      .selectAll("rects")
+      .attr("class", "positive-bars")
+      .selectAll("Prects")
       .data(areaData)
       .enter()
       .append("rect")
       .attr("class", function (d) {
-        return "bar bar--" + (d.changes < 0 ? "negative" : "positive");
+        return "Pbar";
       })
       .attr("x", function (d) {
-        return x(Math.min(0, d.changes));
+        return x(0);
       })
       .attr("y", function (d) {
         return y(d["細項分類"]);
       })
       .attr("width", function (d) {
-        return Math.abs(x(d.changes) - x(0));
+        return x(d.size_pos)-300;
       })
       .attr("height", y.bandwidth() / 2.8)
-      .style("fill", (d) => colorFilter(d));
+      .style("fill", "blue")
+      // .attr("transform", "translate(" + x(0) + ",0)")
 
     svg
-      .append('g')
-      .attr('class', 'values')
+      .append("g")
+      .attr("class", "negative-bars")
+      .selectAll("Nrects")
+      .data(areaData)
+      .enter()
+      .append("rect")
+      .attr("class", function (d) {
+        return "Nbar";
+      })
+      .attr("x", function (d) {
+        return  600 - x(Math.abs((d.size_neg)))
+      })
+      .attr("y", function (d) {
+        return y(d["細項分類"]);
+      })
+      .attr("width", function (d) {
+        return x(Math.abs((d.size_neg)))-300;
+      })
+      .attr("height", y.bandwidth() / 2.8)
+      .style("fill", "orange")
+
+    svg
+      .append("g")
+      .attr("class", "positive")
       .selectAll("number")
       .data(areaData)
       .enter()
       .append("text")
       .attr("x", function (d) {
-        if(d.changes < 0){
-          return x(d.changes)-15;
-        } else {
-          return x(d.changes)+12;
-        }
-
+        return x(d.size_pos) + 15;
       })
       .attr("y", function (d) {
-        return y(d["細項分類"]) + y.bandwidth()/2.8;
+        return y(d["細項分類"]) + y.bandwidth() / 2.8;
       })
-      .text((d) => `${d.changes}`)
+      .text((d) => `${d.size_pos}`)
       .style("text-anchor", "middle")
+      // .style('fill','white')
+
+    svg
+      .append("g")
+      .attr("class", "negative")
+      .selectAll("number")
+      .data(areaData)
+      .enter()
+      .append("text")
+      .attr("x", function (d) {
+        return x(d.size_neg) - 15;
+      })
+      .attr("y", function (d) {
+        return y(d["細項分類"]) + y.bandwidth() / 2.8;
+      })
+      .text((d) => `${d.size_neg}`)
+      .style("text-anchor", "middle");
   });
 }
