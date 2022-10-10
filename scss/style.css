@@ -1,0 +1,179 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body .wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #fff;
+}
+
+body .wrapper #charts {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 0px 40px 0 30px;
+  width: 30vw;
+  height: 100vh;
+}
+
+body .wrapper #charts .title {
+  padding-top: 35px;
+  height: 15vh;
+}
+
+body .wrapper #charts .title h1 {
+  font-size: 42px;
+  padding: 0;
+  margin: 0;
+}
+
+body .wrapper #charts .title h3 {
+  font-size: 14px;
+  padding: 0;
+  margin: 0px 0 12px 0;
+}
+
+body .wrapper #charts .title p {
+  padding: 0;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+body .wrapper #charts .toggle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 10px 0;
+  height: 7vh;
+  border-top: 1px solid #2d2d2d;
+  border-bottom: 1px solid #2d2d2d;
+}
+
+body .wrapper #charts .toggle button {
+  display: block;
+  margin: 14px 0;
+  width: 50%;
+  height: 37px;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+body .wrapper #charts .toggle .bars {
+  background-color: #cecece;
+}
+
+body .wrapper #charts #chart {
+  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  padding: 8px 0px 0 0px;
+  margin: 0 40px 0 0px;
+}
+
+body .wrapper #charts #chart .legend {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  height: 9%;
+}
+
+body .wrapper #charts #chart .legend .btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+body .wrapper #charts #chart .legend .btn-container p {
+  margin: 0;
+  padding: 0;
+}
+
+body .wrapper #charts #chart .legend .btn-container .button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 8px;
+  height: 30px;
+  width: 60px;
+  border-radius: 360px;
+  background-color: #dddddd;
+  z-index: 1;
+}
+
+body .wrapper #charts #chart .legend .btn-container .button-weekend {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+
+body .wrapper #charts #chart .legend .btn-container .button-circle {
+  height: 28px;
+  width: 28px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+body .wrapper #charts #chart .legend select {
+  width: 122px;
+  height: 30px;
+}
+
+body .wrapper #maps {
+  width: 70vw;
+  height: 100vh;
+}
+
+body .wrapper #maps #map {
+  width: 100%;
+  height: 100%;
+}
+
+body .tooltip {
+  color: #2d2d2d;
+  background-color: rgba(229, 229, 229, 0.75);
+}
+
+body .tooltip .annotations {
+  padding: 10px;
+}
+
+body .opacity {
+  opacity: 1;
+}
+/*# sourceMappingURL=style.css.map */
