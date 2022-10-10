@@ -1,5 +1,5 @@
 const margin = { top: 30, right: 20, bottom: 30, left: 50 },
-  heatWidth = 400 - margin.left - margin.right,
+  heatWidth = 500 - margin.left - margin.right,
   heatHeight = 120 - margin.top - margin.bottom;
 
 const data = [
