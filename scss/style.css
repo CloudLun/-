@@ -24,18 +24,19 @@ body .wrapper #charts {
 }
 
 body .wrapper #charts .title {
-  padding-top: 35px;
+  padding-top: 25px;
   height: 15vh;
 }
 
 body .wrapper #charts .title h1 {
-  font-size: 42px;
+  font-size: 35px;
+  border: 10px solid red;
   padding: 0;
   margin: 0;
 }
 
 body .wrapper #charts .title h3 {
-  font-size: 14px;
+  font-size: 12px;
   padding: 0;
   margin: 0px 0 12px 0;
 }
