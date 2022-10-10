@@ -23,9 +23,9 @@
             </div>
             <div class="toggle">
                 <button class="bars">家數消長</button>
-                <button class="heat">人流變化</button>
+                <button class="heatmaps">人流變化</button>
             </div>
-            <div id="chart">
+            <div id="chart" class="display">
                 <div class="legend">
                     <div class="btn-container">
                         <p>平日</p>
@@ -35,7 +35,7 @@
                         <p>假日</p>
                     </div>
                     <select name="location" id="location">
-                        <option value="none" selected disabled hidden>地點</option>
+                        <option value='整體'>整體</option>
                         <option value='中山'>中山</option>
                         <option value="熱區_中山">熱區_中山</option>
                         <option value="西門町">西門町</option>
@@ -48,12 +48,23 @@
                     </select>
                 </div>
             </div>
+            <div id="heatmap" class="none">
+                <div id="weekend"></div>
+                <div id="week"></div>
+                <span></span>
+                <div id="weekendyear"></div>
+                <div id="weekyear"></div>
+
+
+            </div>
+
         </section>
         <section id="maps">
             <div id="map"></div>
         </section>
-
     </div>
+
+
 
 
 
@@ -65,7 +76,8 @@
 
 
     <script src="./viz.js"></script>
-    <!-- <script src="./bar.js"></script> -->
+    <script src="./heatmap.js"></script>
+    <script src="./app.js"></script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@ body {
             margin: 0px 40px 0 30px;
             width: 30vw;
             height: 100vh;
-            // border: 10px solid blue;
+            // border: 5px solid blue;
             .title {
                 // border: 1px solid orange;
                 padding-top: 35px;
@@ -50,17 +50,19 @@ body {
                     height: 37px;
                     border: none;
                     background-color: #f1f1f1;
+                    cursor: pointer;
                 }
                 .bars {
                     background-color: #cecece;
                 }
             }
+
             #chart {
                 width: 100%;
                 flex-grow: 1;
                 padding: 8px 0px 0 0px;
                 margin: 0 40px 0 0px;
-                // border: 1px solid skyblue;
+                // border: 1px solid brown;
                 .legend {
                     display: flex;
                     align-items: start;
@@ -84,6 +86,7 @@ body {
                             border-radius: 360px;
                             background-color: #dddddd;
                             z-index: 1;
+                            cursor: pointer;
                         }
                         .button-weekend {
                             display: flex;
@@ -101,15 +104,39 @@ body {
                     select {
                         width: 122px;
                         height: 30px;
+                        cursor: pointer;
                     }
                 }
+            }
+
+            #heatmap {
+                // display: flex;
+                flex-direction: column;
+                align-items: end;
+                width: 100%;
+                height: 100%;
+                padding: 8px 0px 0 0px;
+                margin: 0 40px 0 30px;
+
+                // span {
+                //     position: absolute;
+                //     display: none;
+                //     height: 2px;
+                //     left: 0;
+                //     right: 0;
+                //     width: 85vw;
+                //     opacity: 0.3;
+                //     margin: auto;
+                //     background-color: lightgrey;
+                //     top: 115px;
+                // }
             }
         }
 
         #maps {
             width: 70vw;
             height: 100vh;
-            // border: 1px solid gray;
+            // border: 10px solid gray;
 
             #map {
                 width: 100%;
@@ -127,5 +154,15 @@ body {
 
     .opacity {
         opacity: 1;
+    }
+
+    .none {
+        display: none;
+    }
+    .display-bars{
+        display: block;
+    }
+    .display-heatmaps {
+        display: flex;
     }
 }

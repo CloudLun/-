@@ -27,6 +27,12 @@ let mapSvg = d3
   .attr("height", "2000")
   .style("position", "absolute")
   .style("z-index", 2);
+let tooltip = d3
+  .select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("position", "absolute")
+  .style("z-index", 100);
 
 // 長條圖前置準備
 const csvs = ["./data/平日店家消長.csv", "./data/假日店家消長.csv"];
@@ -41,29 +47,40 @@ let svg = d3
   .attr("width", width)
   .attr("height", height);
 // .attr("transform", "translate(" + 0 + "," + 0 + ")");
-chartGenerator(timeData, locationValue);
+
+let prect = document.querySelectorAll(".prect");
+let nrect = document.querySelectorAll(".nrect");
+let crect = document.querySelectorAll(".crect");
+const button = document.querySelector(".button");
+const select = document.querySelector("#location");
 
 Promise.all(promises).then((data) => {
   console.log(data[0]);
   console.log(data[1]);
   console.log(data[2]);
 
+  chartGenerator(timeData, locationValue);
 
   mapGenerator(data);
+});
 
-  const button = document.querySelector(".button");
-  const btnCircle = document.querySelector("button-circle");
+button.addEventListener("click", () => {
+  button.classList.toggle("button-weekend");
+  if (button.classList.contains("button-weekend")) {
+    timeData = csvs[1];
+    chartGenerator(timeData, locationValue);
+  } else {
+    timeData = csvs[0];
+    chartGenerator(timeData, locationValue);
+  }
+});
 
-  button.addEventListener("click", () => {
-    button.classList.toggle("button-weekend");
-    if (button.classList.contains("button-weekend")) {
-      chartGenerator(csvs[1], locationValue);
-      mapGenerator(data);
-    } else {
-      chartGenerator(csvs[0], locationValue);
-      mapGenerator(data);
-    }
-  });
+select.addEventListener("change", (event) => {
+  target = event.target.value;
+  console.log(target);
+
+  locationValue = target
+  chartGenerator(timeData, locationValue);
 });
 
 function projectPoint(lon, lat) {
@@ -86,7 +103,7 @@ function areaColor(d) {
 }
 
 function chartGenerator(csv, area) {
-  d3.selectAll("svg > *").remove();
+  svg.selectAll("*").remove();
   d3.csv(csv).then((data) => {
     data.forEach((d) => {
       d["size_all2019"] = +d["size_all2019"];
@@ -95,7 +112,9 @@ function chartGenerator(csv, area) {
       d["changes"] = +d["changes"];
     });
 
-    let areaData = data.filter((d) => d["xm_dist"] === area);
+    
+
+    let areaData = area === '整體' ? data : data.filter((d) => d["xm_dist"] === area);
 
     let x = d3.scaleLinear().range([0, 600]).domain([-70, 70]);
     let y = d3
@@ -130,6 +149,8 @@ function chartGenerator(csv, area) {
       .append("g")
       .attr("class", "positives")
       .selectAll("pRects")
+      .exit()
+      .remove()
       .data(areaData)
       .enter()
       .append("rect")
@@ -152,6 +173,8 @@ function chartGenerator(csv, area) {
       .append("g")
       .attr("class", "negatives")
       .selectAll("nRects")
+      .exit()
+      .remove()
       .data(areaData)
       .enter()
       .append("rect")
@@ -174,6 +197,8 @@ function chartGenerator(csv, area) {
       .append("g")
       .attr("class", "changes")
       .selectAll("cRects")
+      .exit()
+      .remove()
       .data(areaData)
       .enter()
       .append("rect")
@@ -234,6 +259,10 @@ function chartGenerator(csv, area) {
       .text((d) => `${d.size_neg}`)
       .style("text-anchor", "middle")
       .style("font-size", "10px");
+
+    prect = document.querySelectorAll(".prect");
+    nrect = document.querySelectorAll(".nrect");
+    crect = document.querySelectorAll(".crect");
   });
 }
 
@@ -247,7 +276,8 @@ function mapGenerator(data) {
     .enter()
     .append("path")
     .attr("fill", "none")
-    .attr("stroke", "#ffe34c");
+    .attr("stroke", "#ffe34c")
+    .style("stroke-dasharray", "4, 4");
 
   // 網格分區
   let areas = mapSvg
@@ -297,13 +327,6 @@ function mapGenerator(data) {
       .on("mouseout", (e, d) => {
         tooltip.style("visibility", "hidden");
       });
-
-    let tooltip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("position", "absolute")
-      .style("z-index", 100);
   }
 
   render();
@@ -314,9 +337,6 @@ function mapGenerator(data) {
   const blocks = document.querySelector(".blocks");
   const block = document.querySelectorAll(".block");
   const circles = document.querySelector(".circles");
-  const prect = document.querySelectorAll(".prect");
-  const nrect = document.querySelectorAll(".nrect");
-  const crect = document.querySelectorAll(".crect");
 
   blocks.addEventListener("click", (event) => {
     let target = event.target;
