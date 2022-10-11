@@ -40,7 +40,7 @@ body .wrapper #charts .title h3 {
 }
 
 body .wrapper #charts .title p {
-  padding: 0;
+  padding: 5px 0 0 0;
   margin: 0 0 12px 0;
   font-size: 16px;
   font-weight: 300;
@@ -56,7 +56,7 @@ body .wrapper #charts .toggle {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin: 10px 0;
+  margin: 15px 0;
   height: 7vh;
   border-top: 1px solid #2d2d2d;
   border-bottom: 1px solid #2d2d2d;
@@ -81,7 +81,7 @@ body .wrapper #charts #chart {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  padding: 8px 0px 0 0px;
+  padding: 0px 0px 0 0px;
   margin: 0 40px 0 0px;
 }
 
@@ -89,11 +89,12 @@ body .wrapper #charts #chart .legend {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   height: 9%;
 }
 
@@ -157,18 +158,58 @@ body .wrapper #charts #chart .legend select {
   cursor: pointer;
 }
 
+body .wrapper #charts #chart .legend .index {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 6px;
+}
+
+body .wrapper #charts #chart .legend .index .square {
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px 0 10px;
+}
+
+body .wrapper #charts #chart .legend .index .p {
+  background-color: #e5e5e5;
+}
+
+body .wrapper #charts #chart .legend .index .n {
+  background-color: #cccccc;
+}
+
+body .wrapper #charts #chart .legend .index .c {
+  background-color: #ffdf64;
+}
+
 body .wrapper #charts #heatmap {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 100%;
   height: 100%;
   padding: 8px 0px 0 0px;
-  margin: 0 40px 0 30px;
+  margin: 0 0px 0 0px;
+}
+
+body .wrapper #charts #heatmap #week {
+  border-bottom: 1px solid #2d2d2d;
+}
+
+body .wrapper #charts #heatmap .heatyear-title {
+  margin-top: 20px;
 }
 
 body .wrapper #maps {

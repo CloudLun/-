@@ -29,7 +29,7 @@ body {
                 }
                 p {
                     // border: 10px solid red;
-                    padding: 0;
+                    padding: 5px 0 0 0;
                     margin: 0 0 12px 0;
                     font-size: 16px;
                     font-weight: 300;
@@ -39,7 +39,7 @@ body {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 10px 0;
+                margin: 15px 0;
                 height: 7vh;
                 border-top: 1px solid #2d2d2d;
                 border-bottom: 1px solid #2d2d2d;
@@ -60,13 +60,13 @@ body {
             #chart {
                 width: 100%;
                 flex-grow: 1;
-                padding: 8px 0px 0 0px;
+                padding: 0px 0px 0 0px;
                 margin: 0 40px 0 0px;
                 // border: 1px solid brown;
                 .legend {
                     display: flex;
-                    align-items: start;
-                    justify-content: space-around;
+                    align-items: center;
+                    justify-content: space-between;
                     height: 9%;
                     // border: 1px solid orange;
                     .btn-container {
@@ -108,30 +108,52 @@ body {
                         height: 24px;
                         cursor: pointer;
                     }
+                    .index {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 6px;
+
+                        .square{
+                            display: block;
+                            width: 10px;
+                            height: 10px;
+                            margin: 0 5px 0 10px;
+
+                        }
+
+                        .p{
+                            background-color: #e5e5e5;
+                        }
+                        .n {
+                            background-color: #cccccc;
+                        }
+                        .c {
+                            background-color: #ffdf64;
+                        }
+                    }
                 }
             }
 
             #heatmap {
                 // display: flex;
                 flex-direction: column;
-                align-items: end;
+                align-items: center;
+                // justify-content: center;
                 width: 100%;
                 height: 100%;
                 padding: 8px 0px 0 0px;
-                margin: 0 40px 0 30px;
+                margin: 0 0px 0 0px;
+                // border: 1px solid green;
+                #week {
+                    border-bottom: 1px solid #2d2d2d;
+                }
+                .heatyear-title {
+                    margin-top: 20px;
+                }
 
-                // span {
-                //     position: absolute;
-                //     display: none;
-                //     height: 2px;
-                //     left: 0;
-                //     right: 0;
-                //     width: 85vw;
-                //     opacity: 0.3;
-                //     margin: auto;
-                //     background-color: lightgrey;
-                //     top: 115px;
-                // }
+
+
             }
         }
 
