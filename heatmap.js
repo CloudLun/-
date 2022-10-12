@@ -1,6 +1,6 @@
 const margin = { top: 30, right: 30, bottom: 30, left: 30 },
   heatWidth = 450 - margin.left - margin.right,
-  heatHeight = 108- margin.top - margin.bottom;
+  heatHeight = 111- margin.top - margin.bottom;
 
 const data = [
   "./data/熱力圖數據_人流分區差異_假日.csv",
