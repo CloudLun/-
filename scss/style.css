@@ -96,6 +96,7 @@ body .wrapper #charts #chart .legend {
       -ms-flex-pack: justify;
           justify-content: space-between;
   height: 9%;
+  border: 1px solid orange;
 }
 
 body .wrapper #charts #chart .legend .btn-container {
