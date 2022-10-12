@@ -192,7 +192,6 @@ body .wrapper #charts #chart .legend .index .c {
 
 body .wrapper #charts #chart svg {
   margin-top: 5px;
-  border: 1px solid green;
 }
 
 body .wrapper #charts #heatmap {
