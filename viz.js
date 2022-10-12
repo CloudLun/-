@@ -24,7 +24,7 @@ let mapSvg = d3
   .select(container)
   .append("svg")
   .attr("width", "100%")
-  .attr("height", "2000")
+  .attr("height", "100%")
   .style("position", "absolute")
   .style("z-index", 2);
 let tooltip = d3
@@ -37,7 +37,7 @@ let tooltip = d3
 // 長條圖前置準備
 const csvs = ["./data/平日店家消長.csv", "./data/假日店家消長.csv"];
 const width = chart.clientWidth;
-const height = chart.clientHeight * 0.93;
+const height = chart.clientHeight * 0.913;
 
 let timeData = csvs[0];
 let locationValue = "中山";

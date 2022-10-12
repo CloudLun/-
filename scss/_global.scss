@@ -14,7 +14,7 @@ body {
             // border: 5px solid blue;
             .title {
                 // border: 1px solid orange;
-                padding-top: 25px;
+                padding-top: 20px;
                 h1 {
                     font-size: 35px;
                     // border: 10px solid red;
@@ -133,6 +133,10 @@ body {
                         }
                     }
                 }
+                svg {
+                    margin-top: 5px;
+                    border: 1px solid green;
+                }
             }
 
             #heatmap {
@@ -150,6 +154,7 @@ body {
                 }
                 .heatyear-title {
                     margin-top: 20px;
+                    margin-bottom: 0;
                 }
 
 
@@ -172,7 +177,7 @@ body {
         color: #2d2d2d;
         background-color: rgba(229, 229, 229, 0.75);
         .annotations {
-            padding: 10px;
+            padding: 8px;
         }
     }
 
