@@ -37,7 +37,7 @@ let tooltip = d3
 // 長條圖前置準備
 const csvs = ["./data/平日店家消長.csv", "./data/假日店家消長.csv"];
 const width = chart.clientWidth;
-const height = chart.clientHeight*0.9;
+const height = chart.clientHeight * 0.93;
 
 let timeData = csvs[0];
 let locationValue = "中山";
@@ -79,7 +79,7 @@ select.addEventListener("change", (event) => {
   target = event.target.value;
   console.log(target);
 
-  locationValue = target
+  locationValue = target;
   chartGenerator(timeData, locationValue);
 });
 
@@ -112,9 +112,8 @@ function chartGenerator(csv, area) {
       d["changes"] = +d["changes"];
     });
 
-    
-
-    let areaData = area === '整體' ? data : data.filter((d) => d["xm_dist"] === area);
+    let areaData =
+      area === "整體" ? data : data.filter((d) => d["xm_dist"] === area);
 
     let x = d3.scaleLinear().range([0, 600]).domain([-70, 70]);
     let y = d3
@@ -124,6 +123,16 @@ function chartGenerator(csv, area) {
       .domain(areaData.map((d) => d["細項分類"]));
 
     let xChanges = d3.scaleLinear().range([0, 600]).domain([0, 70]);
+
+    let vertical = svg
+      .append("line")
+      .attr("x1", x(0))
+      .attr("x2", x(0))
+      .attr("y1", height)
+      .attr("y2", 0)
+      .style("stroke", "#2d2d2d")
+      .style("stroke-width", "0.2px")
+      .style("opacity", 1)
 
     // AXIS
     svg

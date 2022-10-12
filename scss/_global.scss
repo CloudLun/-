@@ -39,7 +39,7 @@ body {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 15px 0;
+                margin: 13px 0 13px 0;
                 height: 7vh;
                 border-top: 1px solid #2d2d2d;
                 border-bottom: 1px solid #2d2d2d;
@@ -68,7 +68,7 @@ body {
                     align-items: center;
                     justify-content: space-between;
                     height: 7%;
-                    border: 1px solid orange;
+                    // border: 1px solid red;
                     .btn-container {
                         display: flex;
                         align-items: center;
