@@ -128,7 +128,7 @@ function chartGenerator(csv, area) {
       .append("line")
       .attr("x1", x(0))
       .attr("x2", x(0))
-      .attr("y1", height)
+      .attr("y1", y(areaData[areaData.length-1]["細項分類"]))
       .attr("y2", 0)
       .style("stroke", "#2d2d2d")
       .style("stroke-width", "0.2px")
