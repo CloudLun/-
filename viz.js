@@ -37,7 +37,7 @@ let tooltip = d3
 // 長條圖前置準備
 const csvs = ["./data/平日店家消長.csv", "./data/假日店家消長.csv"];
 const width = chart.clientWidth;
-const height = chart.clientHeight * 0.88;
+const height = chart.clientHeight * 0.91;
 
 let timeData = csvs[0];
 let locationValue = "中山";
