@@ -7,7 +7,7 @@ const map = new mapboxgl.Map({
   // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
   style: "mapbox://styles/andy910614/cl90g29qm000915pcnbav9d5v", // style URL
   center: [121.5052040216948, 25.04446044693477], // starting position [lng, lat]
-  zoom: 16.3, // starting zoom
+  zoom: 15.8, // starting zoom
 });
 const geojsons = [
   "./data/西門町邊界.geojson",
@@ -34,10 +34,14 @@ let tooltip = d3
   .style("position", "absolute")
   .style("z-index", 100);
 
+let blocks;
+let block;
+let circles;
+
 // 長條圖前置準備
 const csvs = ["./data/平日店家消長.csv", "./data/假日店家消長.csv"];
 const width = chart.clientWidth;
-const height = chart.clientHeight * 0.913;
+const height = chart.clientHeight * 0.92;
 
 let timeData = csvs[0];
 let locationValue = "中山";
@@ -53,15 +57,11 @@ let nrect = document.querySelectorAll(".nrect");
 let crect = document.querySelectorAll(".crect");
 const button = document.querySelector(".button");
 const select = document.querySelector("#location");
+const square = document.querySelector(".c");
 
 Promise.all(promises).then((data) => {
-  console.log(data[0]);
-  console.log(data[1]);
-  console.log(data[2]);
-
-  chartGenerator(timeData, locationValue);
-
   mapGenerator(data);
+  chartGenerator(timeData, locationValue);
 });
 
 button.addEventListener("click", () => {
@@ -77,10 +77,42 @@ button.addEventListener("click", () => {
 
 select.addEventListener("change", (event) => {
   target = event.target.value;
+  // console.log(target)
   console.log(target);
-
+  square.style.backgroundColor = barColor(target);
   locationValue = target;
   chartGenerator(timeData, locationValue);
+  for (let i = 0; i < block.length; i++) {
+    if (target === "紅區") {
+      block[i].id === "紅區"
+        ? block[i].classList.add("opacity")
+        : block[i].classList.remove("opacity");
+    }
+    if (target === "紫區") {
+      block[i].id === "紫區"
+        ? block[i].classList.add("opacity")
+        : block[i].classList.remove("opacity");
+    }
+    if (target === "灰區") {
+      block[i].id === "灰區"
+        ? block[i].classList.add("opacity")
+        : block[i].classList.remove("opacity");
+    }
+    if (target === "綠區") {
+      block[i].id === "綠區" || block[i].id === "黃綠區"
+        ? block[i].classList.add("opacity")
+        : block[i].classList.remove("opacity");
+    }
+    if (target === "黃區") {
+      block[i].id === "黃區"
+        ? block[i].classList.add("opacity")
+        : block[i].classList.remove("opacity");
+      if (block[i].id === "黃綠區") {
+        block[i].classList.add("opacity");
+        block[i].attributes["fill"]["nodeValue"] = "#FFDF64";
+      }
+    }
+  }
 });
 
 function projectPoint(lon, lat) {
@@ -102,6 +134,20 @@ function areaColor(d) {
     : "#70C1B3";
 }
 
+function barColor(d) {
+  return d === "紅區"
+    ? "#ED6A5E"
+    : d === "灰區"
+    ? "#191919"
+    : d === "紫區"
+    ? "#57467B"
+    : d === "黃區"
+    ? "#FFDF64"
+    : d === "綠區"
+    ? "#70C1B3"
+    : "#FFDF64";
+}
+
 function chartGenerator(csv, area) {
   svg.selectAll("*").remove();
   d3.csv(csv).then((data) => {
@@ -112,27 +158,26 @@ function chartGenerator(csv, area) {
       d["changes"] = +d["changes"];
     });
 
-    let areaData =
-      area === "整體" ? data : data.filter((d) => d["xm_dist"] === area);
+    let areaData = data.filter((d) => d["xm_dist"] === area);
 
-    let x = d3.scaleLinear().range([0, 600]).domain([-70, 70]);
+    let x = d3.scaleLinear().range([0, 500]).domain([-70, 70]);
     let y = d3
       .scaleBand()
       // .padding(0.04)
       .range([0, height])
       .domain(areaData.map((d) => d["細項分類"]));
 
-    let xChanges = d3.scaleLinear().range([0, 600]).domain([0, 70]);
+    let xChanges = d3.scaleLinear().range([0, 500]).domain([0, 70]);
 
-    let vertical = svg
-      .append("line")
-      .attr("x1", x(0))
-      .attr("x2", x(0))
-      .attr("y1", y(areaData[areaData.length-1]["細項分類"]))
-      .attr("y2", 0)
-      .style("stroke", "#2d2d2d")
-      .style("stroke-width", "0.2px")
-      .style("opacity", 1)
+    // let vertical = svg
+    //   .append("line")
+    //   .attr("x1", x(0))
+    //   .attr("x2", x(0))
+    //   .attr("y1", y(areaData[areaData.length-1]["細項分類"]))
+    //   .attr("y2", 0)
+    //   .style("stroke", "#2d2d2d")
+    //   .style("stroke-width", "0.2px")
+    //   .style("opacity", 1)
 
     // AXIS
     svg
@@ -147,7 +192,8 @@ function chartGenerator(csv, area) {
     svg
       .append("g")
       .attr("class", "yAxis")
-      .attr("transform", "translate(0," + -(y.bandwidth() / 3.5) + ")")
+      .style("font-size", "8px")
+      .attr("transform", "translate(-3," + -(y.bandwidth() / 30) + ")")
       .call(d3.axisRight(y).tickSize(0))
       .call((g) => {
         g.select(".domain").remove();
@@ -174,8 +220,9 @@ function chartGenerator(csv, area) {
       .attr("width", function (d) {
         return x(d.size_pos) - x(0);
       })
-      .attr("height", y.bandwidth() / 2.8)
+      .attr("height", y.bandwidth())
       .style("fill", "#e5e5e5")
+      .style("stroke", "white")
       .style("opacity", 0.6);
     // .attr("transform", "translate(" + x(0) + ",0)")
     svg
@@ -190,7 +237,7 @@ function chartGenerator(csv, area) {
       .attr("class", "nrect")
       .attr("data-name", (d) => d["細項分類"])
       .attr("x", function (d) {
-        return 600 - x(Math.abs(d.size_neg));
+        return 500 - x(Math.abs(d.size_neg));
       })
       .attr("y", function (d) {
         return y(d["細項分類"]);
@@ -198,8 +245,9 @@ function chartGenerator(csv, area) {
       .attr("width", function (d) {
         return x(Math.abs(d.size_neg)) - x(0);
       })
-      .attr("height", y.bandwidth() / 2.8)
+      .attr("height", y.bandwidth())
       .style("fill", "#cccccc")
+      .style("stroke", "white")
       .style("opacity", 0.6);
 
     svg
@@ -213,6 +261,7 @@ function chartGenerator(csv, area) {
       .append("rect")
       .attr("class", "crect")
       .attr("data-name", (d) => d["細項分類"])
+      .attr("data-area", (d) => d["xm_dist"])
       .attr("x", (d) =>
         d.changes > 0
           ? xChanges(35)
@@ -228,8 +277,9 @@ function chartGenerator(csv, area) {
           return Math.abs(xChanges(d.changes) / 2);
         }
       })
-      .attr("height", y.bandwidth() / 2.8)
-      .style("fill", "#ffdf64")
+      .attr("height", y.bandwidth())
+      .style("fill", (d) => barColor(d["xm_dist"]))
+      .style("stroke", "white")
       .style("opacity", 0.8);
 
     // NUMBERS
@@ -241,14 +291,14 @@ function chartGenerator(csv, area) {
       .enter()
       .append("text")
       .attr("x", function (d) {
-        return x(d.size_pos) + 12;
+        return x(d.size_pos) + 6;
       })
       .attr("y", function (d) {
-        return y(d["細項分類"]) + y.bandwidth() / 3.3;
+        return y(d["細項分類"]) + y.bandwidth() / 1.7;
       })
       .text((d) => `${d.size_pos}`)
       .style("text-anchor", "middle")
-      .style("font-size", "10px");
+      .style("font-size", "8px");
     // .style('fill','white')
 
     svg
@@ -259,15 +309,15 @@ function chartGenerator(csv, area) {
       .enter()
       .append("text")
       .attr("x", function (d) {
-        return x(d.size_neg) - 12;
+        return x(d.size_neg) - 7;
       })
       .attr("y", function (d) {
-        return y(d["細項分類"]) + y.bandwidth() / 3.3;
+        return y(d["細項分類"]) + y.bandwidth() / 1.7;
       })
 
       .text((d) => `${d.size_neg}`)
       .style("text-anchor", "middle")
-      .style("font-size", "10px");
+      .style("font-size", "8px");
 
     prect = document.querySelectorAll(".prect");
     nrect = document.querySelectorAll(".nrect");
@@ -326,7 +376,10 @@ function mapGenerator(data) {
         <p>細項分類: ${d.properties["細項分類"]}</p>
         </div>
         `;
-        tooltip.html(content).style("visibility", "visible");
+        tooltip
+          .html(content)
+          .style("visibility", "visible")
+          .style("font-size", "10px");
       })
       .on("mousemove", (e, d) => {
         tooltip
@@ -343,9 +396,9 @@ function mapGenerator(data) {
   map.on("move", render);
   map.on("moveend", render);
 
-  const blocks = document.querySelector(".blocks");
-  const block = document.querySelectorAll(".block");
-  const circles = document.querySelector(".circles");
+  blocks = document.querySelector(".blocks");
+  block = document.querySelectorAll(".block");
+  circles = document.querySelector(".circles");
 
   blocks.addEventListener("click", (event) => {
     let target = event.target;
@@ -354,21 +407,33 @@ function mapGenerator(data) {
         block[i].id === "紅區"
           ? block[i].classList.add("opacity")
           : block[i].classList.remove("opacity");
+        select.value = target.id;
+        square.style.backgroundColor = barColor(target.id);
+        locationValue = target.id;
       }
       if (target.id === "紫區") {
         block[i].id === "紫區"
           ? block[i].classList.add("opacity")
           : block[i].classList.remove("opacity");
+        select.value = target.id;
+        square.style.backgroundColor = barColor(target.id);
+        locationValue = target.id;
       }
       if (target.id === "灰區") {
         block[i].id === "灰區"
           ? block[i].classList.add("opacity")
           : block[i].classList.remove("opacity");
+        select.value = target.id;
+        square.style.backgroundColor = barColor(target.id);
+        locationValue = target.id;
       }
       if (target.id === "綠區") {
         block[i].id === "綠區"
           ? block[i].classList.add("opacity")
           : block[i].classList.remove("opacity");
+        select.value = target.id;
+        square.style.backgroundColor = barColor(target.id);
+        locationValue = target.id;
         if (block[i].id === "黃綠區") {
           block[i].classList.add("opacity");
           block[i].attributes["fill"]["nodeValue"] = "#70C1B3";
@@ -378,6 +443,9 @@ function mapGenerator(data) {
         block[i].id === "黃區"
           ? block[i].classList.add("opacity")
           : block[i].classList.remove("opacity");
+        select.value = target.id;
+        square.style.backgroundColor = barColor(target.id);
+        locationValue = target.id;
         if (block[i].id === "黃綠區") {
           block[i].classList.add("opacity");
           block[i].attributes["fill"]["nodeValue"] = "#FFDF64";
@@ -390,9 +458,13 @@ function mapGenerator(data) {
         if (block[i].id === "黃綠區") {
           block[i].classList.add("opacity");
           block[i].attributes["fill"]["nodeValue"] = "#70C1B3";
+          select.value = "綠區";
+          square.style.backgroundColor = barColor("綠區");
+          locationValue = "綠區";
         }
       }
     }
+    chartGenerator(timeData, locationValue);
   });
   circles.addEventListener("mouseover", (event) => {
     target = event.target.classList;
@@ -405,21 +477,39 @@ function mapGenerator(data) {
 
 function circleHoverOnHandler(prect, nrect, crect, target) {
   for (let i = 0; i < prect.length; i++) {
-    prect[i].attributes[6]["nodeValue"] = "fill: #e5e5e5; opacity: .6;";
-    nrect[i].attributes[6]["nodeValue"] = "fill: #cccccc; opacity: .6;";
-    crect[i].attributes[6]["nodeValue"] = "fill: #ffdf64; opacity: 1;";
+    prect[i].attributes["style"][
+      "nodeValue"
+    ] = `fill: #e5e5e5;stroke: white; opacity: .6;`;
+    nrect[i].attributes["style"][
+      "nodeValue"
+    ] = `fill: #cccccc;stroke: white; opacity: .6;`;
+    crect[i].attributes["style"]["nodeValue"] = `fill: ${barColor(
+      crect[i].attributes[2]["nodeValue"]
+    )}; stroke: white; opacity: 1;`;
     if (prect[i]["attributes"][1]["nodeValue"] !== target[0]) {
-      prect[i].attributes[6]["nodeValue"] = "fill: #e5e5e5; opacity: .15;";
-      nrect[i].attributes[6]["nodeValue"] = "fill: #cccccc; opacity: .15;";
-      crect[i].attributes[6]["nodeValue"] = "fill: #ffdf64; opacity: .15;";
+      prect[i].attributes["style"][
+        "nodeValue"
+      ] = `fill: #e5e5e5;stroke: white; opacity: .15;`;
+      nrect[i].attributes["style"][
+        "nodeValue"
+      ] = `fill: #cccccc;stroke: white; opacity: .15;`;
+      crect[i].attributes["style"]["nodeValue"] = `fill: ${barColor(
+        crect[i].attributes[2]["nodeValue"]
+      )}; stroke: white; opacity: .15;`;
     }
   }
 }
 
 function circleHoverOffHandler(prect, nrect, crect) {
   for (let i = 0; i < prect.length; i++) {
-    prect[i].attributes[6]["nodeValue"] = "fill: #e5e5e5; opacity: .6;";
-    nrect[i].attributes[6]["nodeValue"] = "fill: #cccccc; opacity: .6;";
-    crect[i].attributes[6]["nodeValue"] = "fill: #ffdf64; opacity: 1;";
+    prect[i].attributes["style"][
+      "nodeValue"
+    ] = `fill: #e5e5e5;stroke: white; opacity: .6;`;
+    nrect[i].attributes["style"][
+      "nodeValue"
+    ] = `fill: #cccccc;stroke: white; opacity: .6;`;
+    crect[i].attributes["style"]["nodeValue"] = `fill: ${barColor(
+      crect[i].attributes[2]["nodeValue"]
+    )}; stroke: white; opacity: 1;`;
   }
 }

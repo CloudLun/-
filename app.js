@@ -9,7 +9,6 @@ toggle.addEventListener('click', (event) => {
     let target = event.target
 
     if(target.classList.contains('bars')) {
-        console.log('aaa')
         if(chartSection.classList.contains('none')){
             heatmapSection.classList.remove('display-heatmaps')
             heatmapSection.classList.add('none')

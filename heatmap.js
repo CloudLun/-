@@ -1,6 +1,6 @@
-const margin = { top: 30, right: 30, bottom: 30, left: 30 },
+const margin = { top: 30, right: 40, bottom: 30, left: 40 },
   heatWidth = 450 - margin.left - margin.right,
-  heatHeight = 111- margin.top - margin.bottom;
+  heatHeight = 126- margin.top - margin.bottom;
 
 const data = [
   "./data/熱力圖數據_人流分區差異_假日.csv",
@@ -77,7 +77,7 @@ function heatmapGenerator(csv, svg, xScale) {
 
     svg
       .append("g")
-      .style("font-size", 10)
+      .style("font-size", 8)
       .attr("transform", "translate(0," + heatHeight + ")")
       .call(d3.axisBottom(xScale).tickSize(0))
       .select(".domain")
@@ -85,7 +85,7 @@ function heatmapGenerator(csv, svg, xScale) {
 
     svg
       .append("g")
-      .style("font-size", 10)
+      .style("font-size", 8)
       .call(d3.axisLeft(y).tickSize(0))
       .select(".domain")
       .remove();
@@ -133,7 +133,7 @@ function heatmapGenerator(csv, svg, xScale) {
       .text((d) => `${d['值']}`)
       .attr('fill', 'white')
       .style("text-anchor", "end")
-      .style("font-size", "10px")
+      .style("font-size", "8px")
       .style("font-weight", 500)
 
   });
